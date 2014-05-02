@@ -1,2 +1,4 @@
 name: ripple_rest
-description: A pub package 
+description: A pub package
+dependencies:
+  http: any
