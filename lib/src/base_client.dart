@@ -12,7 +12,7 @@ abstract class BaseClient {
 
   Future<AccountSettings> getAccountSettings(String account) {
     return get('accounts/$account/settings').then((data) {
-      return new AccountSettings.fromData(data);
+      return new AccountSettings.fromMap(data);
     });
   }
 

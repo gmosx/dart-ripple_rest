@@ -2,3 +2,5 @@ name: ripple_rest
 description: A pub package
 dependencies:
   http: any
+dev_dependencies:
+  unittest: any
