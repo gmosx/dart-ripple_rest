@@ -8,7 +8,7 @@ class Payment {
 	String /*RippleAddress*/ sourceAccount;
 
 	/** A string representing an unsigned 32-bit integer most commonly used to refer to a sender's hosted account at a Ripple gateway. */
-	String /*UINT32*/ sourceTag;
+	int /*UINT32*/ sourceTag;
 
 	/** An optional amount that can be specified to constrain cross-currency payments. */
 	Amount sourceAmount;
@@ -20,7 +20,7 @@ class Payment {
 	String /*RippleAddress*/ destinationAccount;
 
 	/** A string representing an unsigned 32-bit integer most commonly used to refer to a receiver's hosted account at a Ripple gateway. */
-	String /*UINT32*/ destinationTag;
+	int /*UINT32*/ destinationTag;
 
 	/** The amount the destination_account will receive. */
 	Amount destinationAmount;

@@ -20,7 +20,7 @@ class AccountSettings {
 	String messageKey;
 
 	/** A number representation of the rate charged each time a holder of currency issued by this account transfers it. By default the rate is 100. A rate of 101 is a 1% charge on top of the amount being transferred. Up to nine decimal places are supported. */
-	String transferRate;
+	int /*UINT32*/ transferRate;
 
 	/** If set to true incoming payments will only be validated if they include a destination_tag. This may be used primarily by gateways that operate exclusively with hosted wallets. */
 	bool requireDestinationTag;
@@ -32,10 +32,10 @@ class AccountSettings {
 	bool disallowXrp;
 
 	/** A string representation of the last sequence number of a validated transaction created by this account. */
-	String /*UINT32*/ transactionSequence;
+	int /*UINT32*/ transactionSequence;
 
 	/** The number of trustlines owned by this account. This value does not include incoming trustlines where this account has not explicitly reciprocated trust. */
-	String /*UINT32*/ trustlineCount;
+	int /*UINT32*/ trustlineCount;
 
 	/** The string representation of the index number of the ledger containing these account settings or, in the case of historical queries, of the transaction that modified these settings. */
 	String ledger;

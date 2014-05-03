@@ -50,10 +50,13 @@ class CodeGenerator {
           case 'FloatString':
           case 'RippleAddress':
           case 'URL':
-          case 'UINT32':
           case 'Hash128':
           case 'Hash256':
             type = 'String /*${spec['\$ref']}*/';
+            break;
+
+          case 'UINT32':
+            type = 'int /*${spec['\$ref']}*/';
             break;
 
           case 'Timestamp':
@@ -65,6 +68,10 @@ class CodeGenerator {
         }
       } else {
         switch (spec['type']) {
+          case 'UINT32':
+            type = 'int /*${spec['type']}*/';
+            break;
+
           case 'boolean':
             type = 'bool';
             break;
