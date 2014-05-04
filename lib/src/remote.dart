@@ -31,6 +31,9 @@ abstract class Remote {
    */
   Future<Map> post(String path, Map params);
 
+  /**
+   *
+   */
   Future<AccountSettings> getAccountSettings(String account) {
     return get('accounts/$account/settings').then((response) {
       if (_isSuccess(response)) {
@@ -39,6 +42,9 @@ abstract class Remote {
     });
   }
 
+  /**
+   *
+   */
   Future<Map> getTransaction(String transactionHash) {
     return get('tx/$transactionHash').then((response) {
       if (_isSuccess(response)) {
@@ -47,12 +53,37 @@ abstract class Remote {
     });
   }
 
+  /**
+   *
+   */
   Future<Payment> getPayment(String hashOrId) {
     return null;
   }
 
-  Future<List<Payment>> getPayments(String account) {
-    return get('accounts/$account/payments').then((response) {
+  /**
+   *
+   */
+  Future<List<Payment>> getPayments(String account, {
+      String sourceAccount,
+      String destinationAccount,
+      bool excludeFailed,
+      String direction,
+      int startLedger,
+      int endLedger,
+      int resultsPerPage,
+      int page}) {
+    final params = [];
+
+    if (sourceAccount != null) params.add('source_account=$sourceAccount');
+    if (destinationAccount != null) params.add('destination_account=$destinationAccount');
+    if (excludeFailed != null) params.add('exclude_failed=$excludeFailed');
+    if (direction != null) params.add('direction=$direction');
+    if (startLedger != null) params.add('start_ledger=$startLedger');
+    if (endLedger != null) params.add('end_ledger=$endLedger');
+    if (resultsPerPage != null) params.add('results_per_page=$resultsPerPage');
+    if (page != null) params.add('page=$page');
+
+    return get('accounts/$account/payments${params.isNotEmpty ? '?${params.join('&')}' : ''}').then((response) {
       if (_isSuccess(response)) {
         // TODO: handle the [client_resource_id].
         return response['payments'].map((p) => new Payment.fromMap(p['payment']));
@@ -60,6 +91,9 @@ abstract class Remote {
     });
   }
 
+  /**
+   *
+   */
   Future<List<Balance>> getBalances(String account) {
     return get('accounts/$account/balances').then((response) {
       if (_isSuccess(response)) {
@@ -68,6 +102,9 @@ abstract class Remote {
     });
   }
 
+  /**
+   *
+   */
   Future<List<Trustline>> getTrustlines(String account) {
     return get('accounts/$account/trustlines').then((response) {
       if (_isSuccess(response)) {
@@ -109,9 +146,15 @@ abstract class Remote {
     });
   }
 
+  /**
+   *
+   */
   void getPaths() {
   }
 
+  /**
+   *
+   */
   Future<String> generateUuid() {
     return get('uuid').then((response) {
       if (_isSuccess(response)) {
@@ -120,12 +163,21 @@ abstract class Remote {
     });
   }
 
+  /**
+   *
+   */
   void setAccountSettings() {
   }
 
+  /**
+   *
+   */
   void submitPayment() {
   }
 
+  /**
+   *
+   */
   void setTrustline() {
   }
 

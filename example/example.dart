@@ -34,7 +34,7 @@ void main() {
 //
 //  client.generateUuid().then(print);
 
-  client.getPayments('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh').then((payments) {
+  client.getPayments('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', resultsPerPage: 3).then((payments) {
     payments.forEach((p) {
       print(p.toMap());
     });
