@@ -17,7 +17,6 @@ class RestClient extends RippleRestClient {
 
   @override
   Future<Map> get(String path) {
-    print('$url/$version/$path');
     return _client.get('$url/$version/$path').then((response) {
       return JSON.decode(response.body);
     });
@@ -25,7 +24,9 @@ class RestClient extends RippleRestClient {
 
   @override
   Future<Map> post(String path, Map params) {
-    // TODO: implement post
-    return null;
+    // TODO: find out the correct encoding of body.
+    return _client.post('$url/$version/$path', body: params).then((response) {
+      return JSON.decode(response.body);
+    });
   }
 }
