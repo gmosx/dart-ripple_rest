@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "Notification",
-  "description": "A ",
+  "description": "A Notification",
   "type": "object",
   "properties": {
     "account": {
@@ -11,7 +11,7 @@
     "type": {
       "description": "The resource type this notification corresponds to. Possible values are \"payment\", \"order\", \"trustline\", \"accountsettings\"",
       "type": "string",
-      "pattern": "^payment|order|trustline|accountsettings$" 
+      "pattern": "^payment|order|trustline|accountsettings$"
     },
     "direction": {
       "description": "The direction of the transaction, from the perspective of the account being queried. Possible values are \"incoming\", \"outgoing\", and \"passthrough\"",
@@ -21,7 +21,7 @@
     "state": {
       "description": "The state of the transaction from the perspective of the Ripple Ledger. Possible values are \"validated\" and \"failed\"",
       "type": "string",
-      "pattern": "^validated|failed$" 
+      "pattern": "^validated|failed$"
     },
     "result": {
       "description": "The rippled code indicating the success or failure type of the transaction. The code \"tesSUCCESS\" indicates that the transaction was successfully validated and written into the Ripple Ledger. All other codes will begin with the following prefixes: \"tec\", \"tef\", \"tel\", or \"tej\"",

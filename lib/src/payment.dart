@@ -81,7 +81,7 @@ class Payment {
 		result = map['result'];
 		ledger = map['ledger'];
 		hash = map['hash'];
-		timestamp = map['timestamp'];
+		timestamp = DateTime.parse(map['timestamp']);
 		fee = map['fee'];
 		sourceBalanceChanges = map['source_balance_changes'];
 		destinationBalanceChanges = map['destination_balance_changes'];
@@ -104,7 +104,7 @@ class Payment {
 		'result': result,
 		'ledger': ledger,
 		'hash': hash,
-		'timestamp': timestamp,
+		'timestamp': timestamp.toString(),
 		'fee': fee,
 		'source_balance_changes': sourceBalanceChanges,
 		'destination_balance_changes': destinationBalanceChanges

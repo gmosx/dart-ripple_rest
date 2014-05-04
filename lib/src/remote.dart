@@ -20,6 +20,9 @@ abstract class Remote {
 
   /**
    * Send an HTTP GET request.
+   *
+   * [Ripple REST API documenation](https://dev.ripple.com)
+   * [Ripple REST API endpoints]('/v1');
    */
   Future<Map> get(String path);
 
@@ -60,6 +63,17 @@ abstract class Remote {
     return get('accounts/$account/trustlines').then((response) {
       if (_isSuccess(response)) {
         return response['trustlines'].map((b) => new Trustline.fromMap(b));
+      }
+    });
+  }
+
+  /**
+   *
+   */
+  Future<Notification> getNotification(String account, String transactionHash) {
+    return get('accounts/$account/notifications/$transactionHash').then((response) {
+      if (_isSuccess(response)) {
+        return new Notification.fromMap(response['notification']);
       }
     });
   }

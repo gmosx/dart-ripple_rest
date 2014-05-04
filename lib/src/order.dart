@@ -61,7 +61,7 @@ class Order {
 		baseAmount = map['base_amount'];
 		counterAmount = map['counter_amount'];
 		exchangeRate = map['exchange_rate'];
-		expirationTimestamp = map['expiration_timestamp'];
+		expirationTimestamp = DateTime.parse(map['expiration_timestamp']);
 		ledgerTimeout = map['ledger_timeout'];
 		immediateOrCancel = map['immediate_or_cancel'];
 		fillOrKill = map['fill_or_kill'];
@@ -81,7 +81,7 @@ class Order {
 		'base_amount': baseAmount,
 		'counter_amount': counterAmount,
 		'exchange_rate': exchangeRate,
-		'expiration_timestamp': expirationTimestamp,
+		'expiration_timestamp': expirationTimestamp.toString(),
 		'ledger_timeout': ledgerTimeout,
 		'immediate_or_cancel': immediateOrCancel,
 		'fill_or_kill': fillOrKill,

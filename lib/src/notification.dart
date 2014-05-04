@@ -1,7 +1,7 @@
 part of ripple_rest;
 
 /**
- * A.
+ * A Notification.
  */
 class Notification {
 	/** The Ripple address of the account to which the notification pertains. */
@@ -45,7 +45,7 @@ class Notification {
 		result = map['result'];
 		ledger = map['ledger'];
 		hash = map['hash'];
-		timestamp = map['timestamp'];
+		timestamp = DateTime.parse(map['timestamp']);
 		transactionUrl = map['transaction_url'];
 		previousNotificationUrl = map['previous_notification_url'];
 		nextNotificationUrl = map['next_notification_url'];
@@ -59,7 +59,7 @@ class Notification {
 		'result': result,
 		'ledger': ledger,
 		'hash': hash,
-		'timestamp': timestamp,
+		'timestamp': timestamp.toString(),
 		'transaction_url': transactionUrl,
 		'previous_notification_url': previousNotificationUrl,
 		'next_notification_url': nextNotificationUrl

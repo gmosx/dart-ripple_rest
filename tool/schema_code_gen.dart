@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:convert' show JSON;
 
-// TODO: wrap at 80 chars.
+// TODO: wrap at 80 chars (reuse dartfmt?).
 // TODO: also generate validation code.
 
 // gmosx: Lazy hack but does the job.
@@ -42,50 +42,12 @@ class CodeGenerator {
 
     properties.forEach((name, spec) {
       sb.writeln("\t/** ${spec['description']}. */");
-      var type;
-
-      if (spec.containsKey('\$ref')) {
-        switch (spec['\$ref']) {
-          case 'Currency':
-          case 'FloatString':
-          case 'RippleAddress':
-          case 'URL':
-          case 'Hash128':
-          case 'Hash256':
-            type = 'String /*${spec['\$ref']}*/';
-            break;
-
-          case 'UINT32':
-            type = 'int /*${spec['\$ref']}*/';
-            break;
-
-          case 'Timestamp':
-            type = 'DateTime';
-            break;
-
-          default:
-            type = spec['\$ref'];
-        }
-      } else {
-        switch (spec['type']) {
-          case 'UINT32':
-            type = 'int /*${spec['type']}*/';
-            break;
-
-          case 'boolean':
-            type = 'bool';
-            break;
-
-          default:
-            type = 'String';
-        }
-      }
-      sb.writeln("\t$type ${_toCamelCase(name, startWithLowerCase: true)};\n");
+      sb.writeln("\t${_compilePropertyType(name, spec)} ${_toCamelCase(name, startWithLowerCase: true)};\n");
     });
 
     sb.writeln("\t${schema['title']}.fromMap(Map map) {");
     properties.forEach((name, spec) {
-      sb.writeln("\t\t${_toCamelCase(name, startWithLowerCase: true)} = map['$name'];");
+      sb.writeln("\t\t${_toCamelCase(name, startWithLowerCase: true)} = ${_compileFromProperty(name, spec)};");
     });
     sb.writeln("\t}");
 
@@ -94,13 +56,67 @@ class CodeGenerator {
     sb.writeln("\tMap toMap() => {");
     var arr = [];
     properties.forEach((name, spec) {
-      arr.add("\t\t'$name': ${_toCamelCase(name, startWithLowerCase: true)}");
+      arr.add("\t\t'$name': ${_compileToProperty(name, spec)}");
     });
     sb.writeln(arr.join(",\n"));
     sb.writeln("\t};");
 
     sb.writeln("}");
     return sb.toString();
+  }
+
+  String _compilePropertyType(String name, Map spec) {
+    if (spec.containsKey('\$ref')) {
+      switch (spec['\$ref']) {
+        case 'Currency':
+        case 'FloatString':
+        case 'RippleAddress':
+        case 'URL':
+        case 'Hash128':
+        case 'Hash256':
+          return 'String /*${spec['\$ref']}*/';
+
+        case 'UINT32':
+          return 'int /*${spec['\$ref']}*/';
+
+        case 'Timestamp':
+          return 'DateTime';
+
+        default:
+          return spec['\$ref'];
+      }
+    } else {
+      switch (spec['type']) {
+        case 'UINT32':
+          return 'int /*${spec['type']}*/';
+
+        case 'boolean':
+          return 'bool';
+
+        default:
+          return 'String';
+      }
+    }
+  }
+
+  String _compileFromProperty(String name, Map spec) {
+    if (spec.containsKey('\$ref')) {
+      switch (spec['\$ref']) {
+        case 'Timestamp':
+          return "DateTime.parse(map['$name'])";
+      }
+    }
+    return "map['$name']";
+  }
+
+  String _compileToProperty(String name, Map spec) {
+    if (spec.containsKey('\$ref')) {
+      switch (spec['\$ref']) {
+        case 'Timestamp':
+          return "${_toCamelCase(name, startWithLowerCase: true)}.toString()";
+      }
+    }
+    return _toCamelCase(name, startWithLowerCase: true);
   }
 }
 
