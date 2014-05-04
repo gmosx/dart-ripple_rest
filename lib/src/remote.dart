@@ -83,7 +83,9 @@ abstract class Remote {
     if (resultsPerPage != null) params.add('results_per_page=$resultsPerPage');
     if (page != null) params.add('page=$page');
 
-    return get('accounts/$account/payments${params.isNotEmpty ? '?${params.join('&')}' : ''}').then((response) {
+    final path = 'accounts/$account/payments${params.isNotEmpty ? '?${params.join('&')}' : ''}';
+
+    return get(path).then((response) {
       if (_isSuccess(response)) {
         // TODO: handle the [client_resource_id].
         return response['payments'].map((p) => new Payment.fromMap(p['payment']));
@@ -149,7 +151,21 @@ abstract class Remote {
   /**
    *
    */
-  void getPaths() {
+  Future<List<Payment>> getPaymentPaths(
+      String account, String destinationAccount, String destinationAmount,
+      {String sourceCurrencies}) {
+
+    var path = 'accounts/$account/payments/paths/$destinationAccount/$destinationAmount';
+
+    if (sourceCurrencies != null) {
+      path = '$path?source_currencies=$sourceCurrencies';
+    }
+
+    return get(path).then((response) {
+      if (_isSuccess(response)) {
+        return response['payments'].map((p) => new Payment.fromMap(p));
+      }
+    });
   }
 
   /**
@@ -166,7 +182,7 @@ abstract class Remote {
   /**
    *
    */
-  void setAccountSettings() {
+  void setAccountSettings(String account) {
   }
 
   /**
@@ -178,7 +194,7 @@ abstract class Remote {
   /**
    *
    */
-  void setTrustline() {
+  void setTrustline(String account) {
   }
 
   bool _isSuccess(Map response) {
