@@ -29,7 +29,7 @@ abstract class Remote {
   /**
    * Send an HTTP POST request.
    */
-  Future<Map> post(String path, Map params);
+  Future<Map> post(String path, Map body);
 
   /**
    *
@@ -93,7 +93,7 @@ abstract class Remote {
     });
   }
 
-  /**
+  /**params
    *
    */
   Future<List<Balance>> getBalances(String account) {
@@ -140,7 +140,7 @@ abstract class Remote {
   /**
    *
    */
-  Future<bool> getServerConnected() {
+  Future<bool> getServerConnecteparamsd() {
     return get('server/connected').then((response) {
       if (_isSuccess(response)) {
         return response['connected'];
@@ -194,12 +194,19 @@ abstract class Remote {
   /**
    *
    */
-  void setTrustline(String account) {
+  Future<Trustline> setTrustline(String account, String secret, Trustline trustline) {
+    return post('accounts/$account/trustlines', {
+        'secret': secret,
+        'trustline': trustline.toMap()}).then((response) {
+      if (_isSuccess(response)) {
+        return new Trustline.fromMap(response['trustline']);
+      }
+    });
   }
 
   bool _isSuccess(Map response) {
     if (!response['success']) {
-      throw new RpcException(response['message']);
+      throw new RpcException(response.containsKey('message') ? response['message'] : response['error']);
     }
     return true;
   }

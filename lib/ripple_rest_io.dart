@@ -28,9 +28,11 @@ class RestClient extends Remote {
   }
 
   @override
-  Future<Map> post(String path, Map params) {
-    // TODO: find out the correct encoding of body.
-    return _client.post('$url/$version/$path', body: params).then((response) {
+  Future<Map> post(String path, Map body) {
+    return _client.post(
+        '$url/$version/$path',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.encode(body)).then((response) {
       return JSON.decode(response.body);
     });
   }

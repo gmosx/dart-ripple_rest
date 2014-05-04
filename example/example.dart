@@ -1,7 +1,7 @@
-import 'package:ripple_rest/ripple_rest_io.dart' as ripple;
+import 'package:ripple_rest/ripple_rest_io.dart';
 
 void main() {
-  final client = new ripple.RestClient('http://192.168.0.14:5990');
+  final client = new RestClient('http://192.168.0.14:5990');
 
 //  client.getAccountSettings('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh').then((settings) {
 //    print(settings.domain);
@@ -33,10 +33,18 @@ void main() {
 //  client.getServerConnected().then(print);
 //
 //  client.generateUuid().then(print);
+//
+//  client.getPayments('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', resultsPerPage: 3).then((payments) {
+//    payments.forEach((p) {
+//      print(p.toMap());
+//    });
+//  });
 
-  client.getPayments('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', resultsPerPage: 3).then((payments) {
-    payments.forEach((p) {
-      print(p.toMap());
-    });
+  var trustline = new Trustline.fromMap({
+    'limit': '110',
+    'currency': 'XRP',
+    'counterparty': 'rPs7nVbSops6xm4v77wpoPFf549cqjzUy9',
+    'account_allows_rippling': true
   });
+  client.setTrustline('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', "secret", trustline).catchError(print);
 }
