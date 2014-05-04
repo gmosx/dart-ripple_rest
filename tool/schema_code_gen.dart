@@ -43,25 +43,25 @@ class CodeGenerator {
     sb.writeln("class ${schema['title']} {");
 
     properties.forEach((name, spec) {
-      sb.writeln("\t/** ${spec['description']}. */");
-      sb.writeln("\t${_compilePropertyType(name, spec)} ${_toCamelCase(name, startWithLowerCase: true)};\n");
+      sb.writeln("  /** ${spec['description']}. */");
+      sb.writeln("  ${_compilePropertyType(name, spec)} ${_toCamelCase(name, startWithLowerCase: true)};\n");
     });
 
-    sb.writeln("\t${schema['title']}.fromMap(Map map) {");
+    sb.writeln("  ${schema['title']}.fromMap(Map map) {");
     properties.forEach((name, spec) {
-      sb.writeln("\t\t${_toCamelCase(name, startWithLowerCase: true)} = ${_compileFromProperty(name, spec)};");
+      sb.writeln("    ${_toCamelCase(name, startWithLowerCase: true)} = ${_compileFromProperty(name, spec)};");
     });
-    sb.writeln("\t}");
+    sb.writeln("  }");
 
     sb.writeln();
 
-    sb.writeln("\tMap toMap() => {");
+    sb.writeln("  Map toMap() => {");
     var arr = [];
     properties.forEach((name, spec) {
-      arr.add("\t\t'$name': ${_compileToProperty(name, spec)}");
+      arr.add("    '$name': ${_compileToProperty(name, spec)}");
     });
     sb.writeln(arr.join(",\n"));
-    sb.writeln("\t};");
+    sb.writeln("  };");
 
     sb.writeln("}");
     return sb.toString();
