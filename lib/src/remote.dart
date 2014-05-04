@@ -51,6 +51,15 @@ abstract class Remote {
     return null;
   }
 
+  Future<List<Payment>> getPayments(String account) {
+    return get('accounts/$account/payments').then((response) {
+      if (_isSuccess(response)) {
+        // TODO: handle the [client_resource_id].
+        return response['payments'].map((p) => new Payment.fromMap(p['payment']));
+      }
+    });
+  }
+
   Future<List<Balance>> getBalances(String account) {
     return get('accounts/$account/balances').then((response) {
       if (_isSuccess(response)) {
@@ -103,10 +112,18 @@ abstract class Remote {
   void getPaths() {
   }
 
+  Future<String> generateUuid() {
+    return get('uuid').then((response) {
+      if (_isSuccess(response)) {
+        return response['uuid'];
+      }
+    });
+  }
+
   void setAccountSettings() {
   }
 
-  void sendPayment() {
+  void submitPayment() {
   }
 
   void setTrustline() {

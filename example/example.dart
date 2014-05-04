@@ -28,7 +28,15 @@ void main() {
 //  client.getNotification('rPs7nVbSops6xm4v77wpoPFf549cqjzUy9', 'EA1C8349FFFDB180BF6805FB69B32A41A5C86E27B4F79BED3CD8BA9A1E902721').then((notification) {
 //    print(notification.toMap());
 //  });
+//
+//  client.getServerStatus().then(print);
+//  client.getServerConnected().then(print);
+//
+//  client.generateUuid().then(print);
 
-  client.getServerStatus().then(print);
-  client.getServerConnected().then(print);
+  client.getPayments('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh').then((payments) {
+    payments.forEach((p) {
+      print(p.toMap());
+    });
+  });
 }

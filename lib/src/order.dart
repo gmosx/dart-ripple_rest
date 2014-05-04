@@ -58,8 +58,8 @@ class Order {
 	Order.fromMap(Map map) {
 		account = map['account'];
 		buy = map['buy'];
-		baseAmount = map['base_amount'];
-		counterAmount = map['counter_amount'];
+		baseAmount = new Amount.fromMap(map['base_amount']);
+		counterAmount = new Amount.fromMap(map['counter_amount']);
 		exchangeRate = map['exchange_rate'];
 		expirationTimestamp = DateTime.parse(map['expiration_timestamp']);
 		ledgerTimeout = map['ledger_timeout'];
@@ -78,8 +78,8 @@ class Order {
 	Map toMap() => {
 		'account': account,
 		'buy': buy,
-		'base_amount': baseAmount,
-		'counter_amount': counterAmount,
+		'base_amount': baseAmount.toMap(),
+		'counter_amount': counterAmount.toMap(),
 		'exchange_rate': exchangeRate,
 		'expiration_timestamp': expirationTimestamp.toString(),
 		'ledger_timeout': ledgerTimeout,

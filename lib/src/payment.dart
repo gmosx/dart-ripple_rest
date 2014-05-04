@@ -8,7 +8,7 @@ class Payment {
 	String /*RippleAddress*/ sourceAccount;
 
 	/** A string representing an unsigned 32-bit integer most commonly used to refer to a sender's hosted account at a Ripple gateway. */
-	int /*UINT32*/ sourceTag;
+	String /*UINT32*/ sourceTag;
 
 	/** An optional amount that can be specified to constrain cross-currency payments. */
 	Amount sourceAmount;
@@ -20,7 +20,7 @@ class Payment {
 	String /*RippleAddress*/ destinationAccount;
 
 	/** A string representing an unsigned 32-bit integer most commonly used to refer to a receiver's hosted account at a Ripple gateway. */
-	int /*UINT32*/ destinationTag;
+	String /*UINT32*/ destinationTag;
 
 	/** The amount the destination_account will receive. */
 	Amount destinationAmount;
@@ -59,19 +59,19 @@ class Payment {
 	String /*FloatString*/ fee;
 
 	/** Parsed from the validated transaction metadata, this array represents all of the changes to balances held by the source_account. Most often this will have one amount representing the Ripple Network fee and, if the source_amount was not XRP, one amount representing the actual source_amount that was sent. */
-	String sourceBalanceChanges;
+	List<Amount> sourceBalanceChanges;
 
 	/** Parsed from the validated transaction metadata, this array represents the changes to balances held by the destination_account. For those receiving payments this is important to check because if the partial_payment flag is set this value may be less than the destination_amount. */
-	String destinationBalanceChanges;
+	List<Amount> destinationBalanceChanges;
 
 	Payment.fromMap(Map map) {
 		sourceAccount = map['source_account'];
-		sourceTag = map['source_tag'];
-		sourceAmount = map['source_amount'];
+		sourceTag = map['source_tag'].toString();
+		sourceAmount = new Amount.fromMap(map['source_amount']);
 		sourceSlippage = map['source_slippage'];
 		destinationAccount = map['destination_account'];
-		destinationTag = map['destination_tag'];
-		destinationAmount = map['destination_amount'];
+		destinationTag = map['destination_tag'].toString();
+		destinationAmount = new Amount.fromMap(map['destination_amount']);
 		invoiceId = map['invoice_id'];
 		paths = map['paths'];
 		partialPayment = map['partial_payment'];
@@ -90,11 +90,11 @@ class Payment {
 	Map toMap() => {
 		'source_account': sourceAccount,
 		'source_tag': sourceTag,
-		'source_amount': sourceAmount,
+		'source_amount': sourceAmount.toMap(),
 		'source_slippage': sourceSlippage,
 		'destination_account': destinationAccount,
 		'destination_tag': destinationTag,
-		'destination_amount': destinationAmount,
+		'destination_amount': destinationAmount.toMap(),
 		'invoice_id': invoiceId,
 		'paths': paths,
 		'partial_payment': partialPayment,

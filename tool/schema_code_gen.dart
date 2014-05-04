@@ -74,13 +74,14 @@ class CodeGenerator {
         case 'URL':
         case 'Hash128':
         case 'Hash256':
-          return 'String /*${spec['\$ref']}*/';
-
         case 'UINT32':
-          return 'int /*${spec['\$ref']}*/';
+          return "String /*${spec['\$ref']}*/";
+
+//        case 'UINT32':
+//          return 'int /*${spec['\$ref']}*/';
 
         case 'Timestamp':
-          return 'DateTime';
+          return "DateTime";
 
         default:
           return spec['\$ref'];
@@ -88,13 +89,16 @@ class CodeGenerator {
     } else {
       switch (spec['type']) {
         case 'UINT32':
-          return 'int /*${spec['type']}*/';
+          return "int /*${spec['type']}*/";
 
         case 'boolean':
-          return 'bool';
+          return "bool";
+
+        case 'array':
+          return "List<${spec['items']['\$ref']}>";
 
         default:
-          return 'String';
+          return "String";
       }
     }
   }
@@ -102,8 +106,14 @@ class CodeGenerator {
   String _compileFromProperty(String name, Map spec) {
     if (spec.containsKey('\$ref')) {
       switch (spec['\$ref']) {
+        case 'UINT32':
+          return "map['$name'].toString()"; // TODO: this is a hack-fix for UINT32 disambiguity.
+
         case 'Timestamp':
           return "DateTime.parse(map['$name'])";
+
+        case 'Amount':
+          return "new Amount.fromMap(map['$name'])";
       }
     }
     return "map['$name']";
@@ -114,6 +124,9 @@ class CodeGenerator {
       switch (spec['\$ref']) {
         case 'Timestamp':
           return "${_toCamelCase(name, startWithLowerCase: true)}.toString()";
+
+        case 'Amount':
+          return "${_toCamelCase(name, startWithLowerCase: true)}.toMap()";
       }
     }
     return _toCamelCase(name, startWithLowerCase: true);
