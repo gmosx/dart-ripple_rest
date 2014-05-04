@@ -78,6 +78,28 @@ abstract class Remote {
     });
   }
 
+  /**
+   *
+   */
+  Future<Map> getServerStatus() {
+    return get('server').then((response) {
+      if (_isSuccess(response)) {
+        return response;
+      }
+    });
+  }
+
+  /**
+   *
+   */
+  Future<bool> getServerConnected() {
+    return get('server/connected').then((response) {
+      if (_isSuccess(response)) {
+        return response['connected'];
+      }
+    });
+  }
+
   void getPaths() {
   }
 
