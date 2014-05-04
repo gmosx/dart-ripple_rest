@@ -107,7 +107,7 @@ class CodeGenerator {
     if (spec.containsKey('\$ref')) {
       switch (spec['\$ref']) {
         case 'UINT32':
-          return "map['$name'].toString()"; // TODO: this is a hack-fix for UINT32 disambiguity.
+          return "map['$name'].toString()"; // TODO: this is a hack-fix for UINT32 ambiguity.
 
         case 'Timestamp':
           return "DateTime.parse(map['$name'])";
