@@ -182,13 +182,31 @@ abstract class Remote {
   /**
    *
    */
-  void setAccountSettings(String account) {
+  Future<Map> setAccountSettings(String account, String secret, AccountSettings accountSettings) {
+    return post('accounts/$account/settings', {
+        'secret': secret,
+        'settings': accountSettings.toMap()}).then((response) {
+      if (_isSuccess(response)) {
+        // TODO: Temporary, try to remove an object.
+        response.remove('success');
+        return response;
+      }
+    });
   }
 
   /**
    *
    */
-  void submitPayment() {
+  Future<Map> submitPayment(String clientResourceId, String secret, Payment payment) {
+    return post('payments', {
+        'secret': secret,
+        'client_resource_id': clientResourceId,
+        'payment': payment.toMap()}).then((response) {
+      if (_isSuccess(response)) {
+        response.remove('success');
+        return response;
+      }
+    });
   }
 
   /**
