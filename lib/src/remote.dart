@@ -4,6 +4,17 @@ part of ripple_rest;
 // TODO: on error throw exception?
 
 /**
+ * An RpcException is thrown on unsuccessful responses to RPC requests.
+ */
+class RpcException implements Exception {
+  String message;
+
+  RpcException(this.message);
+  // TODO: add support for stack traces, zones, etc.
+  String toString() => message;
+}
+
+/**
  * The Ripple-REST rpc interface.
  */
 abstract class Remote {
@@ -15,17 +26,17 @@ abstract class Remote {
 
   Future<AccountSettings> getAccountSettings(String account) {
     return get('accounts/$account/settings').then((response) {
-      if (response['success']) {
+      if (_isSuccess(response)) {
         return new AccountSettings.fromMap(response['settings']);
-      } else {
-        return null;
       }
     });
   }
 
   Future<Map> getTransaction(String transactionHash) {
     return get('tx/$transactionHash').then((response) {
-      return response['transaction'];
+      if (_isSuccess(response)) {
+        return response['transaction'];
+      }
     });
   }
 
@@ -53,7 +64,10 @@ abstract class Remote {
   void setTrustline() {
   }
 
-  _checkSuccess(Map response) {
-    // TODO: implement me!
+  bool _isSuccess(Map response) {
+    if (!response['success']) {
+      throw new RpcException(response['message']);
+    }
+    return true;
   }
 }
