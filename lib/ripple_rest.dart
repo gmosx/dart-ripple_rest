@@ -9,5 +9,4 @@ part 'src/notification.dart';
 part 'src/payment.dart';
 part 'src/trustline.dart';
 
-part 'src/ripple_rest_client.dart';
 part 'src/remote.dart';

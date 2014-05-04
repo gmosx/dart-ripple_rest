@@ -8,10 +8,15 @@ import 'package:http/http.dart' as http;
 import 'ripple_rest.dart';
 export 'ripple_rest.dart';
 
-class RestClient extends RippleRestClient {
+/**
+ * Ripple REST API client, dart:io version.
+ */
+class RestClient extends Remote {
+  String url;
+  String version;
   http.Client _client;
 
-  RestClient(String url, {String version: 'v1'}) : super(url, version: version) {
+  RestClient(this.url, {this.version: 'v1'}) {
     _client = new http.Client();
   }
 

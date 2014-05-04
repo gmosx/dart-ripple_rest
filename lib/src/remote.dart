@@ -3,13 +3,18 @@ part of ripple_rest;
 // TODO: on error (success: false) return error message.
 // TODO: on error throw exception?
 
-class Remote {
-  RippleRestClient _client;
+/**
+ * The Ripple-REST rpc interface.
+ */
+abstract class Remote {
+  Remote();
 
-  Remote(this._client);
+  Future<Map> get(String path);
+
+  Future<Map> post(String path, Map params);
 
   Future<AccountSettings> getAccountSettings(String account) {
-    return _client.get('accounts/$account/settings').then((response) {
+    return get('accounts/$account/settings').then((response) {
       if (response['success']) {
         return new AccountSettings.fromMap(response['settings']);
       } else {
@@ -19,7 +24,7 @@ class Remote {
   }
 
   Future<Map> getTransaction(String transactionHash) {
-    return _client.get('tx/$transactionHash').then((response) {
+    return get('tx/$transactionHash').then((response) {
       return response['transaction'];
     });
   }
