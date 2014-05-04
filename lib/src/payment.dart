@@ -1,5 +1,7 @@
 part of ripple_rest;
 
+// This file is generated automatically from the JSON schema, do *not* edit!
+
 /**
  * A flattened Payment object used by the ripple-rest API.
  */

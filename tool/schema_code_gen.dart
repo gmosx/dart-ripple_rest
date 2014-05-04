@@ -35,6 +35,8 @@ class CodeGenerator {
 
     sb.writeln("part of ripple_rest;\n");
 
+    sb.writeln("// This file is generated automatically from the JSON schema, do *not* edit!\n");
+
     sb.writeln("/**");
     sb.writeln(" * ${schema['description'].trim()}.");
     sb.writeln(" */");

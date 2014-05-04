@@ -1,5 +1,7 @@
 part of ripple_rest;
 
+// This file is generated automatically from the JSON schema, do *not* edit!
+
 /**
  * An Amount on the Ripple Protocol, used also for XRP in the ripple-rest API.
  */

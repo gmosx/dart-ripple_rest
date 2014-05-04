@@ -1,5 +1,7 @@
 part of ripple_rest;
 
+// This file is generated automatically from the JSON schema, do *not* edit!
+
 /**
  * A simplified Order object used by the ripple-rest API (note that "orders" are referred to elsewhere in the Ripple protocol as "offers").
  */

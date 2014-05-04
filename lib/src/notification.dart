@@ -1,7 +1,9 @@
 part of ripple_rest;
 
+// This file is generated automatically from the JSON schema, do *not* edit!
+
 /**
- * A Notification.
+ * A.
  */
 class Notification {
 	/** The Ripple address of the account to which the notification pertains. */

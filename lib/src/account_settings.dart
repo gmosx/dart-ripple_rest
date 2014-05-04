@@ -1,5 +1,7 @@
 part of ripple_rest;
 
+// This file is generated automatically from the JSON schema, do *not* edit!
+
 /**
  * An object.
  */
@@ -32,10 +34,10 @@ class AccountSettings {
 	bool disallowXrp;
 
 	/** A string representation of the last sequence number of a validated transaction created by this account. */
-	int /*UINT32*/ transactionSequence;
+	String /*UINT32*/ transactionSequence;
 
 	/** The number of trustlines owned by this account. This value does not include incoming trustlines where this account has not explicitly reciprocated trust. */
-	int /*UINT32*/ trustlineCount;
+	String /*UINT32*/ trustlineCount;
 
 	/** The string representation of the index number of the ledger containing these account settings or, in the case of historical queries, of the transaction that modified these settings. */
 	String ledger;
@@ -53,8 +55,8 @@ class AccountSettings {
 		requireDestinationTag = map['require_destination_tag'];
 		requireAuthorization = map['require_authorization'];
 		disallowXrp = map['disallow_xrp'];
-		transactionSequence = map['transaction_sequence'];
-		trustlineCount = map['trustline_count'];
+		transactionSequence = map['transaction_sequence'].toString();
+		trustlineCount = map['trustline_count'].toString();
 		ledger = map['ledger'];
 		hash = map['hash'];
 	}
