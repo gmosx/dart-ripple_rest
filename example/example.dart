@@ -3,10 +3,6 @@ import 'package:ripple_rest/ripple_rest_io.dart';
 void main() {
   final client = new RippleRestClient('http://192.168.0.14:5990');
 
-//  client.getAccountSettings('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh').then((settings) {
-//    print(settings.domain);
-//  });
-//
 //  client.getBalances('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh').then((balances) {
 //    balances.forEach((b) {
 //      print("${b.currency}/${b.counterparty}: ${b.value}");

@@ -92,7 +92,7 @@ abstract class Rpc {
     return get(path).then((response) {
       if (_isSuccess(response)) {
         // TODO: handle the [client_resource_id].
-        return response['payments'].map((p) => new Payment.fromMap(p['payment']));
+        return response['payments'].map((p) => new Payment.fromMap(p['payment'])).toList();
       }
     });
   }
@@ -103,7 +103,7 @@ abstract class Rpc {
   Future<List<Balance>> getBalances(String account) {
     return get('accounts/$account/balances').then((response) {
       if (_isSuccess(response)) {
-        return response['balances'].map((b) => new Balance.fromMap(b));
+        return response['balances'].map((b) => new Balance.fromMap(b)).toList();
       }
     });
   }
@@ -114,7 +114,7 @@ abstract class Rpc {
   Future<List<Trustline>> getTrustlines(String account) {
     return get('accounts/$account/trustlines').then((response) {
       if (_isSuccess(response)) {
-        return response['trustlines'].map((b) => new Trustline.fromMap(b));
+        return response['trustlines'].map((b) => new Trustline.fromMap(b)).toList();
       }
     });
   }
@@ -168,7 +168,7 @@ abstract class Rpc {
 
     return get(path).then((response) {
       if (_isSuccess(response)) {
-        return response['payments'].map((p) => new Payment.fromMap(p));
+        return response['payments'].map((p) => new Payment.fromMap(p)).toList();
       }
     });
   }

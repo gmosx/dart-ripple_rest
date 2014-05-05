@@ -1,6 +1,7 @@
 Ripple REST API client
 ======================
 
+
 A wrapper around the [Ripple REST API](https://dev.ripple.com).
 
 
@@ -16,9 +17,9 @@ Example usage
 -------------
 
 ```dart
-  // import for web (browser) applications.
+  // import for web (browser) applications (dart:html).
   import 'package:ripple_rest/ripple_rest_html';
-  // or, import for console applications.
+  // or, import for console applications (dart:io).
   import 'package:ripple_rest/ripple_rest_io'; 
 
   final client = new RippleRestClient('http://localhost:5990');
