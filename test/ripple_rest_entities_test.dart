@@ -48,5 +48,12 @@ void main() {
       expect(map['hash'], 'dummyhash');
       expect(map.length, 2);
     });
+
+    test("serializes list properties", () {
+      final payment = new Payment(sourceBalanceChanges: [new Amount(value: '10.1')]);
+      final map = payment.toMap();
+
+      expect(map['source_balance_changes'].first['value'], '10.1');
+    });
   });
 }

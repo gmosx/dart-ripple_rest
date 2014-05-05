@@ -76,7 +76,7 @@ class CodeGenerator {
     sb.writeln("    final map = {};\n");
     properties.forEach((name, spec) {
       var property = _compileToProperty(name, spec);
-      sb.writeln("    if ($property != null) map['$name'] = $property;");
+      sb.writeln("    if (${_toCamelCase(name, startWithLowerCase: true)} != null) map['$name'] = $property;");
     });
     sb.writeln("\n    return map;");
     sb.writeln("  }");
@@ -154,6 +154,12 @@ class CodeGenerator {
 
         case 'Amount':
           return "${_toCamelCase(name, startWithLowerCase: true)}.toMap()";
+      }
+    } else {
+      switch (spec['type']) {
+        case 'array':
+          var property = _toCamelCase(name, startWithLowerCase: true);
+          return "$property.map((x) => x.toMap()).toList()";
       }
     }
 

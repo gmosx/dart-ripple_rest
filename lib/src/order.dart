@@ -101,10 +101,10 @@ class Order {
 
     if (account != null) map['account'] = account;
     if (buy != null) map['buy'] = buy;
-    if (baseAmount.toMap() != null) map['base_amount'] = baseAmount.toMap();
-    if (counterAmount.toMap() != null) map['counter_amount'] = counterAmount.toMap();
+    if (baseAmount != null) map['base_amount'] = baseAmount.toMap();
+    if (counterAmount != null) map['counter_amount'] = counterAmount.toMap();
     if (exchangeRate != null) map['exchange_rate'] = exchangeRate;
-    if (expirationTimestamp.toString() != null) map['expiration_timestamp'] = expirationTimestamp.toString();
+    if (expirationTimestamp != null) map['expiration_timestamp'] = expirationTimestamp.toString();
     if (ledgerTimeout != null) map['ledger_timeout'] = ledgerTimeout;
     if (immediateOrCancel != null) map['immediate_or_cancel'] = immediateOrCancel;
     if (fillOrKill != null) map['fill_or_kill'] = fillOrKill;

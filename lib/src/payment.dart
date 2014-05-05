@@ -116,11 +116,11 @@ class Payment {
 
     if (sourceAccount != null) map['source_account'] = sourceAccount;
     if (sourceTag != null) map['source_tag'] = sourceTag;
-    if (sourceAmount.toMap() != null) map['source_amount'] = sourceAmount.toMap();
+    if (sourceAmount != null) map['source_amount'] = sourceAmount.toMap();
     if (sourceSlippage != null) map['source_slippage'] = sourceSlippage;
     if (destinationAccount != null) map['destination_account'] = destinationAccount;
     if (destinationTag != null) map['destination_tag'] = destinationTag;
-    if (destinationAmount.toMap() != null) map['destination_amount'] = destinationAmount.toMap();
+    if (destinationAmount != null) map['destination_amount'] = destinationAmount.toMap();
     if (invoiceId != null) map['invoice_id'] = invoiceId;
     if (paths != null) map['paths'] = paths;
     if (partialPayment != null) map['partial_payment'] = partialPayment;
@@ -130,10 +130,10 @@ class Payment {
     if (result != null) map['result'] = result;
     if (ledger != null) map['ledger'] = ledger;
     if (hash != null) map['hash'] = hash;
-    if (timestamp.toString() != null) map['timestamp'] = timestamp.toString();
+    if (timestamp != null) map['timestamp'] = timestamp.toString();
     if (fee != null) map['fee'] = fee;
-    if (sourceBalanceChanges != null) map['source_balance_changes'] = sourceBalanceChanges;
-    if (destinationBalanceChanges != null) map['destination_balance_changes'] = destinationBalanceChanges;
+    if (sourceBalanceChanges != null) map['source_balance_changes'] = sourceBalanceChanges.map((x) => x.toMap()).toList();
+    if (destinationBalanceChanges != null) map['destination_balance_changes'] = destinationBalanceChanges.map((x) => x.toMap()).toList();
 
     return map;
   }

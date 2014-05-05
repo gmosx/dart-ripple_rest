@@ -76,7 +76,7 @@ class Notification {
     if (result != null) map['result'] = result;
     if (ledger != null) map['ledger'] = ledger;
     if (hash != null) map['hash'] = hash;
-    if (timestamp.toString() != null) map['timestamp'] = timestamp.toString();
+    if (timestamp != null) map['timestamp'] = timestamp.toString();
     if (transactionUrl != null) map['transaction_url'] = transactionUrl;
     if (previousNotificationUrl != null) map['previous_notification_url'] = previousNotificationUrl;
     if (nextNotificationUrl != null) map['next_notification_url'] = nextNotificationUrl;
