@@ -45,8 +45,8 @@ Example usage
 
 For more examples check out the following files:
 
-* example/example.dart
-* test/ripple_rest_io_test.dart
+* [example/example.dart](https://github.com/gmosx/dart-ripple_rest/blob/master/example/example.dart)
+* [test/ripple_rest_io_test.dart](https://github.com/gmosx/dart-ripple_rest/blob/master/test/ripple_rest_io_test.dart)
 
 
 Links

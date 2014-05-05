@@ -18,8 +18,6 @@ class RpcException implements Exception {
  * [Ripple REST API endpoints]('/v1');
  */
 abstract class Rpc {
-  Rpc();
-
   /**
    * Send an HTTP GET request.
    */
