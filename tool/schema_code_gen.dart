@@ -4,7 +4,7 @@ import 'dart:convert' show JSON;
 // TODO: wrap at 80 chars (reuse dartfmt?).
 // TODO: also generate validation code.
 
-// gmosx: Lazy hack but does the job.
+// gmosx: Lazy hack but does the job, should replace with RegExp.
 String _toCamelCase(String str, {bool startWithLowerCase: false}) {
   final parts = str.toLowerCase().split("_");
   for (int i = startWithLowerCase ? 1 : 0; i < parts.length; i++){
@@ -13,7 +13,7 @@ String _toCamelCase(String str, {bool startWithLowerCase: false}) {
   return parts.join();
 }
 
-// gmosx: Lazy hack but does the job.
+// gmosx: Lazy hack but does the job, should replace with RegExp.
 String _toSnakeCase(String str) {
   final parts = [];
   var matches = new RegExp(r'[A-Z]').allMatches(str).toList();
@@ -33,19 +33,34 @@ class CodeGenerator {
     final properties = schema['properties'];
     final sb = new StringBuffer();
 
-    sb.writeln("part of ripple_rest;\n");
-
     sb.writeln("// This file is generated automatically from the JSON schema, do *not* edit!\n");
+
+    sb.writeln("part of ripple_rest;\n");
 
     sb.writeln("/**");
     sb.writeln(" * ${schema['description'].trim()}.");
     sb.writeln(" */");
     sb.writeln("class ${schema['title']} {");
 
+    // Compile properties.
+
     properties.forEach((name, spec) {
       sb.writeln("  /** ${spec['description']}. */");
       sb.writeln("  ${_compilePropertyType(name, spec)} ${_toCamelCase(name, startWithLowerCase: true)};\n");
     });
+
+    // Compile constructor.
+
+    sb.writeln("  ${schema['title']}({");
+    final args = [];
+    properties.forEach((name, spec) {
+      args.add("    this.${_toCamelCase(name, startWithLowerCase: true)}");
+    });
+    sb.writeln("${args.join(",\n")}});");
+
+    sb.writeln();
+
+    // Compile [fromMap] constructor.
 
     sb.writeln("  ${schema['title']}.fromMap(Map map) {");
     properties.forEach((name, spec) {
@@ -55,13 +70,16 @@ class CodeGenerator {
 
     sb.writeln();
 
-    sb.writeln("  Map toMap() => {");
-    var arr = [];
+    // Compile [toMap] method.
+
+    sb.writeln("  Map toMap() {");
+    sb.writeln("    final map = {};\n");
     properties.forEach((name, spec) {
-      arr.add("    '$name': ${_compileToProperty(name, spec)}");
+      var property = _compileToProperty(name, spec);
+      sb.writeln("    if ($property != null) map['$name'] = $property;");
     });
-    sb.writeln(arr.join(",\n"));
-    sb.writeln("  };");
+    sb.writeln("\n    return map;");
+    sb.writeln("  }");
 
     sb.writeln("}");
     return sb.toString();
@@ -111,13 +129,18 @@ class CodeGenerator {
         case 'UINT32':
           // TODO: investigate if this is *really* needed!
           // TODO: this is a hack-fix for UINT32 ambiguity.
-          return "map['$name'].toString()";
+          return "map.containsKey('$name') ? map['$name'].toString() : null";
 
         case 'Timestamp':
-          return "DateTime.parse(map['$name'])";
+          return "map.containsKey('$name') ? DateTime.parse(map['$name']) : null";
 
         case 'Amount':
-          return "new Amount.fromMap(map['$name'])";
+          return "map.containsKey('$name') ? new Amount.fromMap(map['$name']) : null";
+      }
+    } else {
+      switch (spec['type']) {
+        case 'array':
+          return "map.containsKey('$name') ? map['$name'].map((x) => new ${spec['items']['\$ref']}.fromMap(x)).toList() : null";
       }
     }
     return "map['$name']";
@@ -133,6 +156,7 @@ class CodeGenerator {
           return "${_toCamelCase(name, startWithLowerCase: true)}.toMap()";
       }
     }
+
     return _toCamelCase(name, startWithLowerCase: true);
   }
 }

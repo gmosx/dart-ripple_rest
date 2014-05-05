@@ -1,7 +1,7 @@
 import 'package:ripple_rest/ripple_rest_io.dart';
 
 void main() {
-  final client = new RestClient('http://192.168.0.14:5990');
+  final client = new RippleRestClient('http://192.168.0.14:5990');
 
 //  client.getAccountSettings('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh').then((settings) {
 //    print(settings.domain);
@@ -40,11 +40,11 @@ void main() {
 //    });
 //  });
 
-  var trustline = new Trustline.fromMap({
-    'limit': '110',
-    'currency': 'XRP',
-    'counterparty': 'rPs7nVbSops6xm4v77wpoPFf549cqjzUy9',
-    'account_allows_rippling': true
-  });
+  var trustline = new Trustline(
+    limit: '110',
+    currency: 'XRP',
+    counterparty: 'rPs7nVbSops6xm4v77wpoPFf549cqjzUy9',
+    accountAllowsRippling: true
+  );
   client.setTrustline('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', "secret", trustline).catchError(print);
 }

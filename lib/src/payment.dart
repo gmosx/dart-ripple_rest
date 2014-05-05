@@ -1,6 +1,6 @@
-part of ripple_rest;
-
 // This file is generated automatically from the JSON schema, do *not* edit!
+
+part of ripple_rest;
 
 /**
  * A flattened Payment object used by the ripple-rest API.
@@ -66,14 +66,36 @@ class Payment {
   /** Parsed from the validated transaction metadata, this array represents the changes to balances held by the destination_account. For those receiving payments this is important to check because if the partial_payment flag is set this value may be less than the destination_amount. */
   List<Amount> destinationBalanceChanges;
 
+  Payment({
+    this.sourceAccount,
+    this.sourceTag,
+    this.sourceAmount,
+    this.sourceSlippage,
+    this.destinationAccount,
+    this.destinationTag,
+    this.destinationAmount,
+    this.invoiceId,
+    this.paths,
+    this.partialPayment,
+    this.noDirectRipple,
+    this.direction,
+    this.state,
+    this.result,
+    this.ledger,
+    this.hash,
+    this.timestamp,
+    this.fee,
+    this.sourceBalanceChanges,
+    this.destinationBalanceChanges});
+
   Payment.fromMap(Map map) {
     sourceAccount = map['source_account'];
-    sourceTag = map['source_tag'].toString();
-    sourceAmount = new Amount.fromMap(map['source_amount']);
+    sourceTag = map.containsKey('source_tag') ? map['source_tag'].toString() : null;
+    sourceAmount = map.containsKey('source_amount') ? new Amount.fromMap(map['source_amount']) : null;
     sourceSlippage = map['source_slippage'];
     destinationAccount = map['destination_account'];
-    destinationTag = map['destination_tag'].toString();
-    destinationAmount = new Amount.fromMap(map['destination_amount']);
+    destinationTag = map.containsKey('destination_tag') ? map['destination_tag'].toString() : null;
+    destinationAmount = map.containsKey('destination_amount') ? new Amount.fromMap(map['destination_amount']) : null;
     invoiceId = map['invoice_id'];
     paths = map['paths'];
     partialPayment = map['partial_payment'];
@@ -83,32 +105,36 @@ class Payment {
     result = map['result'];
     ledger = map['ledger'];
     hash = map['hash'];
-    timestamp = DateTime.parse(map['timestamp']);
+    timestamp = map.containsKey('timestamp') ? DateTime.parse(map['timestamp']) : null;
     fee = map['fee'];
-    sourceBalanceChanges = map['source_balance_changes'];
-    destinationBalanceChanges = map['destination_balance_changes'];
+    sourceBalanceChanges = map.containsKey('source_balance_changes') ? map['source_balance_changes'].map((x) => new Amount.fromMap(x)).toList() : null;
+    destinationBalanceChanges = map.containsKey('destination_balance_changes') ? map['destination_balance_changes'].map((x) => new Amount.fromMap(x)).toList() : null;
   }
 
-  Map toMap() => {
-    'source_account': sourceAccount,
-    'source_tag': sourceTag,
-    'source_amount': sourceAmount.toMap(),
-    'source_slippage': sourceSlippage,
-    'destination_account': destinationAccount,
-    'destination_tag': destinationTag,
-    'destination_amount': destinationAmount.toMap(),
-    'invoice_id': invoiceId,
-    'paths': paths,
-    'partial_payment': partialPayment,
-    'no_direct_ripple': noDirectRipple,
-    'direction': direction,
-    'state': state,
-    'result': result,
-    'ledger': ledger,
-    'hash': hash,
-    'timestamp': timestamp.toString(),
-    'fee': fee,
-    'source_balance_changes': sourceBalanceChanges,
-    'destination_balance_changes': destinationBalanceChanges
-  };
+  Map toMap() {
+    final map = {};
+
+    if (sourceAccount != null) map['source_account'] = sourceAccount;
+    if (sourceTag != null) map['source_tag'] = sourceTag;
+    if (sourceAmount.toMap() != null) map['source_amount'] = sourceAmount.toMap();
+    if (sourceSlippage != null) map['source_slippage'] = sourceSlippage;
+    if (destinationAccount != null) map['destination_account'] = destinationAccount;
+    if (destinationTag != null) map['destination_tag'] = destinationTag;
+    if (destinationAmount.toMap() != null) map['destination_amount'] = destinationAmount.toMap();
+    if (invoiceId != null) map['invoice_id'] = invoiceId;
+    if (paths != null) map['paths'] = paths;
+    if (partialPayment != null) map['partial_payment'] = partialPayment;
+    if (noDirectRipple != null) map['no_direct_ripple'] = noDirectRipple;
+    if (direction != null) map['direction'] = direction;
+    if (state != null) map['state'] = state;
+    if (result != null) map['result'] = result;
+    if (ledger != null) map['ledger'] = ledger;
+    if (hash != null) map['hash'] = hash;
+    if (timestamp.toString() != null) map['timestamp'] = timestamp.toString();
+    if (fee != null) map['fee'] = fee;
+    if (sourceBalanceChanges != null) map['source_balance_changes'] = sourceBalanceChanges;
+    if (destinationBalanceChanges != null) map['destination_balance_changes'] = destinationBalanceChanges;
+
+    return map;
+  }
 }

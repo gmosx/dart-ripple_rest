@@ -11,12 +11,12 @@ export 'ripple_rest.dart';
 /**
  * Ripple REST API client, dart:io version.
  */
-class RestClient extends Remote {
+class RippleRestClient extends Rpc {
   String url;
   String version;
   http.Client _client;
 
-  RestClient(this.url, {this.version: 'v1'}) {
+  RippleRestClient(this.url, {this.version: 'v1'}) {
     _client = new http.Client();
   }
 

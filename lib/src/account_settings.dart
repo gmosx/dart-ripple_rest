@@ -1,6 +1,6 @@
-part of ripple_rest;
-
 // This file is generated automatically from the JSON schema, do *not* edit!
+
+part of ripple_rest;
 
 /**
  * An object.
@@ -45,6 +45,21 @@ class AccountSettings {
   /** If this object was returned by a historical query this value will be the hash of the transaction that modified these settings. The transaction hash is used throughout the Ripple Protocol to uniquely identify a particular transaction. */
   String /*Hash256*/ hash;
 
+  AccountSettings({
+    this.account,
+    this.regularKey,
+    this.domain,
+    this.emailHash,
+    this.messageKey,
+    this.transferRate,
+    this.requireDestinationTag,
+    this.requireAuthorization,
+    this.disallowXrp,
+    this.transactionSequence,
+    this.trustlineCount,
+    this.ledger,
+    this.hash});
+
   AccountSettings.fromMap(Map map) {
     account = map['account'];
     regularKey = map['regular_key'];
@@ -55,25 +70,29 @@ class AccountSettings {
     requireDestinationTag = map['require_destination_tag'];
     requireAuthorization = map['require_authorization'];
     disallowXrp = map['disallow_xrp'];
-    transactionSequence = map['transaction_sequence'].toString();
-    trustlineCount = map['trustline_count'].toString();
+    transactionSequence = map.containsKey('transaction_sequence') ? map['transaction_sequence'].toString() : null;
+    trustlineCount = map.containsKey('trustline_count') ? map['trustline_count'].toString() : null;
     ledger = map['ledger'];
     hash = map['hash'];
   }
 
-  Map toMap() => {
-    'account': account,
-    'regular_key': regularKey,
-    'domain': domain,
-    'email_hash': emailHash,
-    'message_key': messageKey,
-    'transfer_rate': transferRate,
-    'require_destination_tag': requireDestinationTag,
-    'require_authorization': requireAuthorization,
-    'disallow_xrp': disallowXrp,
-    'transaction_sequence': transactionSequence,
-    'trustline_count': trustlineCount,
-    'ledger': ledger,
-    'hash': hash
-  };
+  Map toMap() {
+    final map = {};
+
+    if (account != null) map['account'] = account;
+    if (regularKey != null) map['regular_key'] = regularKey;
+    if (domain != null) map['domain'] = domain;
+    if (emailHash != null) map['email_hash'] = emailHash;
+    if (messageKey != null) map['message_key'] = messageKey;
+    if (transferRate != null) map['transfer_rate'] = transferRate;
+    if (requireDestinationTag != null) map['require_destination_tag'] = requireDestinationTag;
+    if (requireAuthorization != null) map['require_authorization'] = requireAuthorization;
+    if (disallowXrp != null) map['disallow_xrp'] = disallowXrp;
+    if (transactionSequence != null) map['transaction_sequence'] = transactionSequence;
+    if (trustlineCount != null) map['trustline_count'] = trustlineCount;
+    if (ledger != null) map['ledger'] = ledger;
+    if (hash != null) map['hash'] = hash;
+
+    return map;
+  }
 }

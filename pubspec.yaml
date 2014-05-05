@@ -1,5 +1,7 @@
 name: ripple_rest
-description: A pub package
+version: 0.6.0
+author: George Moschovitis <george.moschovitis@gmail.com>
+description: A wrapper around the [Ripple REST API](https://dev.ripple.com).
 dependencies:
   http: any
 dev_dependencies:

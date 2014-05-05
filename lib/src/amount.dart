@@ -1,6 +1,6 @@
-part of ripple_rest;
-
 // This file is generated automatically from the JSON schema, do *not* edit!
+
+part of ripple_rest;
 
 /**
  * An Amount on the Ripple Protocol, used also for XRP in the ripple-rest API.
@@ -18,6 +18,12 @@ class Amount {
   /** The Ripple account address of the currency's issuer or gateway, or an empty string if the currency is XRP. */
   String counterparty;
 
+  Amount({
+    this.value,
+    this.currency,
+    this.issuer,
+    this.counterparty});
+
   Amount.fromMap(Map map) {
     value = map['value'];
     currency = map['currency'];
@@ -25,10 +31,14 @@ class Amount {
     counterparty = map['counterparty'];
   }
 
-  Map toMap() => {
-    'value': value,
-    'currency': currency,
-    'issuer': issuer,
-    'counterparty': counterparty
-  };
+  Map toMap() {
+    final map = {};
+
+    if (value != null) map['value'] = value;
+    if (currency != null) map['currency'] = currency;
+    if (issuer != null) map['issuer'] = issuer;
+    if (counterparty != null) map['counterparty'] = counterparty;
+
+    return map;
+  }
 }

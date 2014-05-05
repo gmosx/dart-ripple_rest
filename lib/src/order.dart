@@ -1,6 +1,6 @@
-part of ripple_rest;
-
 // This file is generated automatically from the JSON schema, do *not* edit!
+
+part of ripple_rest;
 
 /**
  * A simplified Order object used by the ripple-rest API (note that "orders" are referred to elsewhere in the Ripple protocol as "offers").
@@ -57,13 +57,32 @@ class Order {
   /** If the order was modified or partially filled this will be a full Order object. If the previous object also had a previous object that will be removed to reduce data complexity. Order changes can be walked backwards by querying the API for previous.hash repeatedly. */
   Order previous;
 
+  Order({
+    this.account,
+    this.buy,
+    this.baseAmount,
+    this.counterAmount,
+    this.exchangeRate,
+    this.expirationTimestamp,
+    this.ledgerTimeout,
+    this.immediateOrCancel,
+    this.fillOrKill,
+    this.maximizeBuyOrSell,
+    this.cancelReplace,
+    this.sequence,
+    this.fee,
+    this.state,
+    this.ledger,
+    this.hash,
+    this.previous});
+
   Order.fromMap(Map map) {
     account = map['account'];
     buy = map['buy'];
-    baseAmount = new Amount.fromMap(map['base_amount']);
-    counterAmount = new Amount.fromMap(map['counter_amount']);
+    baseAmount = map.containsKey('base_amount') ? new Amount.fromMap(map['base_amount']) : null;
+    counterAmount = map.containsKey('counter_amount') ? new Amount.fromMap(map['counter_amount']) : null;
     exchangeRate = map['exchange_rate'];
-    expirationTimestamp = DateTime.parse(map['expiration_timestamp']);
+    expirationTimestamp = map.containsKey('expiration_timestamp') ? DateTime.parse(map['expiration_timestamp']) : null;
     ledgerTimeout = map['ledger_timeout'];
     immediateOrCancel = map['immediate_or_cancel'];
     fillOrKill = map['fill_or_kill'];
@@ -77,23 +96,27 @@ class Order {
     previous = map['previous'];
   }
 
-  Map toMap() => {
-    'account': account,
-    'buy': buy,
-    'base_amount': baseAmount.toMap(),
-    'counter_amount': counterAmount.toMap(),
-    'exchange_rate': exchangeRate,
-    'expiration_timestamp': expirationTimestamp.toString(),
-    'ledger_timeout': ledgerTimeout,
-    'immediate_or_cancel': immediateOrCancel,
-    'fill_or_kill': fillOrKill,
-    'maximize_buy_or_sell': maximizeBuyOrSell,
-    'cancel_replace': cancelReplace,
-    'sequence': sequence,
-    'fee': fee,
-    'state': state,
-    'ledger': ledger,
-    'hash': hash,
-    'previous': previous
-  };
+  Map toMap() {
+    final map = {};
+
+    if (account != null) map['account'] = account;
+    if (buy != null) map['buy'] = buy;
+    if (baseAmount.toMap() != null) map['base_amount'] = baseAmount.toMap();
+    if (counterAmount.toMap() != null) map['counter_amount'] = counterAmount.toMap();
+    if (exchangeRate != null) map['exchange_rate'] = exchangeRate;
+    if (expirationTimestamp.toString() != null) map['expiration_timestamp'] = expirationTimestamp.toString();
+    if (ledgerTimeout != null) map['ledger_timeout'] = ledgerTimeout;
+    if (immediateOrCancel != null) map['immediate_or_cancel'] = immediateOrCancel;
+    if (fillOrKill != null) map['fill_or_kill'] = fillOrKill;
+    if (maximizeBuyOrSell != null) map['maximize_buy_or_sell'] = maximizeBuyOrSell;
+    if (cancelReplace != null) map['cancel_replace'] = cancelReplace;
+    if (sequence != null) map['sequence'] = sequence;
+    if (fee != null) map['fee'] = fee;
+    if (state != null) map['state'] = state;
+    if (ledger != null) map['ledger'] = ledger;
+    if (hash != null) map['hash'] = hash;
+    if (previous != null) map['previous'] = previous;
+
+    return map;
+  }
 }

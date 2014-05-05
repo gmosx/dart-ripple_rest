@@ -1,6 +1,5 @@
 part of ripple_rest;
 
-// TODO: add support for stack traces, zones, etc.
 /**
  * An RpcException is thrown on unsuccessful responses to RPC requests.
  */
@@ -13,16 +12,16 @@ class RpcException implements Exception {
 }
 
 /**
- * The Ripple-REST rpc interface.
+ * The Ripple-REST RPC interface.
+ *
+ * [Ripple REST API documenation](https://dev.ripple.com)
+ * [Ripple REST API endpoints]('/v1');
  */
-abstract class Remote {
-  Remote();
+abstract class Rpc {
+  Rpc();
 
   /**
    * Send an HTTP GET request.
-   *
-   * [Ripple REST API documenation](https://dev.ripple.com)
-   * [Ripple REST API endpoints]('/v1');
    */
   Future<Map> get(String path);
 
@@ -32,7 +31,7 @@ abstract class Remote {
   Future<Map> post(String path, Map body);
 
   /**
-   *
+   * Get the settings of an [account].
    */
   Future<AccountSettings> getAccountSettings(String account) {
     return get('accounts/$account/settings').then((response) {
@@ -43,7 +42,7 @@ abstract class Remote {
   }
 
   /**
-   *
+   * Get details for the transaction identified by the given [transactionHash].
    */
   Future<Map> getTransaction(String transactionHash) {
     return get('tx/$transactionHash').then((response) {
@@ -54,14 +53,19 @@ abstract class Remote {
   }
 
   /**
-   *
+   * Get details for a specific payment indentified by a transaction [hash]
+   * or a clientResourceId (i.e. an UUID).
    */
-  Future<Payment> getPayment(String hashOrId) {
-    return null;
+  Future<Payment> getPayment(String account, String hashOrId) {
+    return get('accounts/$account/payments/$hashOrId').then((response) {
+      if (_isSuccess(response)) {
+        return response['payment'];
+      }
+    });
   }
 
   /**
-   *
+   * Get historical payments of an [account].
    */
   Future<List<Payment>> getPayments(String account, {
       String sourceAccount,
@@ -93,8 +97,8 @@ abstract class Remote {
     });
   }
 
-  /**params
-   *
+  /**
+   * Get the balances of an account.
    */
   Future<List<Balance>> getBalances(String account) {
     return get('accounts/$account/balances').then((response) {
@@ -105,7 +109,7 @@ abstract class Remote {
   }
 
   /**
-   *
+   * Get the trustlines of an account.
    */
   Future<List<Trustline>> getTrustlines(String account) {
     return get('accounts/$account/trustlines').then((response) {
@@ -116,7 +120,7 @@ abstract class Remote {
   }
 
   /**
-   *
+   * Get a notification corresponding to a transaction.
    */
   Future<Notification> getNotification(String account, String transactionHash) {
     return get('accounts/$account/notifications/$transactionHash').then((response) {
@@ -127,7 +131,7 @@ abstract class Remote {
   }
 
   /**
-   *
+   * Return the REST server status.
    */
   Future<Map> getServerStatus() {
     return get('server').then((response) {
@@ -138,9 +142,9 @@ abstract class Remote {
   }
 
   /**
-   *
+   * Return the rippled connection status.
    */
-  Future<bool> getServerConnecteparamsd() {
+  Future<bool> getServerConnected() {
     return get('server/connected').then((response) {
       if (_isSuccess(response)) {
         return response['connected'];
@@ -149,7 +153,8 @@ abstract class Remote {
   }
 
   /**
-   *
+   * Query for possible payment paths. Returns a List of potential Payment
+   * objects.
    */
   Future<List<Payment>> getPaymentPaths(
       String account, String destinationAccount, String destinationAmount,
@@ -169,7 +174,7 @@ abstract class Remote {
   }
 
   /**
-   *
+   * Get a new, random UUID. Useful as a value for [clientResourceId].
    */
   Future<String> generateUuid() {
     return get('uuid').then((response) {
@@ -180,7 +185,7 @@ abstract class Remote {
   }
 
   /**
-   *
+   * Update the settings of an [account].
    */
   Future<Map> setAccountSettings(String account, String secret, AccountSettings accountSettings) {
     return post('accounts/$account/settings', {
@@ -195,7 +200,10 @@ abstract class Remote {
   }
 
   /**
+   * Submit a payment to the Ripple network.
    *
+   * To prevent double-spending only one payment is permitted for a given
+   * [clientResourceId].
    */
   Future<Map> submitPayment(String clientResourceId, String secret, Payment payment) {
     return post('payments', {
@@ -210,7 +218,7 @@ abstract class Remote {
   }
 
   /**
-   *
+   * Add or update a [trustline] of an [account].
    */
   Future<Trustline> setTrustline(String account, String secret, Trustline trustline) {
     return post('accounts/$account/trustlines', {

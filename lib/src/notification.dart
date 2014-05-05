@@ -1,6 +1,6 @@
-part of ripple_rest;
-
 // This file is generated automatically from the JSON schema, do *not* edit!
+
+part of ripple_rest;
 
 /**
  * A.
@@ -39,6 +39,19 @@ class Notification {
   /** A URL that can be used to fetch the notification that followed this one chronologically. */
   String nextNotificationUrl;
 
+  Notification({
+    this.account,
+    this.type,
+    this.direction,
+    this.state,
+    this.result,
+    this.ledger,
+    this.hash,
+    this.timestamp,
+    this.transactionUrl,
+    this.previousNotificationUrl,
+    this.nextNotificationUrl});
+
   Notification.fromMap(Map map) {
     account = map['account'];
     type = map['type'];
@@ -47,23 +60,27 @@ class Notification {
     result = map['result'];
     ledger = map['ledger'];
     hash = map['hash'];
-    timestamp = DateTime.parse(map['timestamp']);
+    timestamp = map.containsKey('timestamp') ? DateTime.parse(map['timestamp']) : null;
     transactionUrl = map['transaction_url'];
     previousNotificationUrl = map['previous_notification_url'];
     nextNotificationUrl = map['next_notification_url'];
   }
 
-  Map toMap() => {
-    'account': account,
-    'type': type,
-    'direction': direction,
-    'state': state,
-    'result': result,
-    'ledger': ledger,
-    'hash': hash,
-    'timestamp': timestamp.toString(),
-    'transaction_url': transactionUrl,
-    'previous_notification_url': previousNotificationUrl,
-    'next_notification_url': nextNotificationUrl
-  };
+  Map toMap() {
+    final map = {};
+
+    if (account != null) map['account'] = account;
+    if (type != null) map['type'] = type;
+    if (direction != null) map['direction'] = direction;
+    if (state != null) map['state'] = state;
+    if (result != null) map['result'] = result;
+    if (ledger != null) map['ledger'] = ledger;
+    if (hash != null) map['hash'] = hash;
+    if (timestamp.toString() != null) map['timestamp'] = timestamp.toString();
+    if (transactionUrl != null) map['transaction_url'] = transactionUrl;
+    if (previousNotificationUrl != null) map['previous_notification_url'] = previousNotificationUrl;
+    if (nextNotificationUrl != null) map['next_notification_url'] = nextNotificationUrl;
+
+    return map;
+  }
 }

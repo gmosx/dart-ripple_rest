@@ -1,5 +1,7 @@
 bin/
 build/
+docs/
+dartdoc-viewer/
 .buildlog
 pubspec.lock
 packages

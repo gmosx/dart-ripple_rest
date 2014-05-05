@@ -1,6 +1,6 @@
-part of ripple_rest;
-
 // This file is generated automatically from the JSON schema, do *not* edit!
+
+part of ripple_rest;
 
 /**
  * A simplified Trustline object used by the ripple-rest API.
@@ -42,6 +42,20 @@ class Trustline {
   /** If the trustline was changed this will be a full Trustline object representing the previous values. If the previous object also had a previous object that will be removed to reduce data complexity. Trustline changes can be walked backwards by querying the API for previous.hash repeatedly. */
   Trustline previous;
 
+  Trustline({
+    this.account,
+    this.counterparty,
+    this.currency,
+    this.limit,
+    this.reciprocatedLimit,
+    this.authorizedByAccount,
+    this.authorizedByCounterparty,
+    this.accountAllowsRippling,
+    this.counterpartyAllowsRippling,
+    this.ledger,
+    this.hash,
+    this.previous});
+
   Trustline.fromMap(Map map) {
     account = map['account'];
     counterparty = map['counterparty'];
@@ -57,18 +71,22 @@ class Trustline {
     previous = map['previous'];
   }
 
-  Map toMap() => {
-    'account': account,
-    'counterparty': counterparty,
-    'currency': currency,
-    'limit': limit,
-    'reciprocated_limit': reciprocatedLimit,
-    'authorized_by_account': authorizedByAccount,
-    'authorized_by_counterparty': authorizedByCounterparty,
-    'account_allows_rippling': accountAllowsRippling,
-    'counterparty_allows_rippling': counterpartyAllowsRippling,
-    'ledger': ledger,
-    'hash': hash,
-    'previous': previous
-  };
+  Map toMap() {
+    final map = {};
+
+    if (account != null) map['account'] = account;
+    if (counterparty != null) map['counterparty'] = counterparty;
+    if (currency != null) map['currency'] = currency;
+    if (limit != null) map['limit'] = limit;
+    if (reciprocatedLimit != null) map['reciprocated_limit'] = reciprocatedLimit;
+    if (authorizedByAccount != null) map['authorized_by_account'] = authorizedByAccount;
+    if (authorizedByCounterparty != null) map['authorized_by_counterparty'] = authorizedByCounterparty;
+    if (accountAllowsRippling != null) map['account_allows_rippling'] = accountAllowsRippling;
+    if (counterpartyAllowsRippling != null) map['counterparty_allows_rippling'] = counterpartyAllowsRippling;
+    if (ledger != null) map['ledger'] = ledger;
+    if (hash != null) map['hash'] = hash;
+    if (previous != null) map['previous'] = previous;
+
+    return map;
+  }
 }
