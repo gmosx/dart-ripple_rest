@@ -1,5 +1,9 @@
 import 'package:ripple_rest/ripple_rest_io.dart';
 
+/**
+ * A simple example.
+ * For more examples check out the unit tests (test/ripple_rest_io_test.dart).
+ */
 void main() {
   final client = new RippleRestClient('http://192.168.0.14:5990');
 
@@ -17,14 +21,6 @@ void main() {
 //
 //  client.getServerStatus().then(print);
 //  client.getServerConnected().then(print);
-//
-//  client.generateUuid().then(print);
-//
-//  client.getPayments('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', resultsPerPage: 3).then((payments) {
-//    payments.forEach((p) {
-//      print(p.toMap());
-//    });
-//  });
 
   var trustline = new Trustline(
     limit: '110',

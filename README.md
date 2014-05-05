@@ -43,6 +43,11 @@ Example usage
   client.setTrustline('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', "secret", trustline).catchError(print);
 ```  
 
+For more examples check out the following files:
+
+* example/example.dart
+* test/ripple_rest_io_test.dart
+
 
 Links
 -----

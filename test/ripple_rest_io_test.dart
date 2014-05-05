@@ -32,6 +32,16 @@ void main() {
       }));
     });
 
+    test("provides a UUID generator", () {
+      client.generateUuid().then(expectAsync((uuid) {
+        expect(uuid.length, equals(36));
+      }));
+    });
 
+    test("provides access to account payment history", () {
+      client.getPayments('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', resultsPerPage: 3).then(expectAsync((payments) {
+        expect(payments.length, equals(3));
+      }));
+    });
   });
 }
