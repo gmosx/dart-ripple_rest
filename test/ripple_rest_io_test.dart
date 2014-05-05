@@ -39,8 +39,11 @@ void main() {
     });
 
     test("provides access to account payment history", () {
-      client.getPayments('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', resultsPerPage: 3).then(expectAsync((payments) {
+      client.getPayments('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', resultsPerPage: 3).then(expectAsync((List<Payment> payments) {
         expect(payments.length, equals(3));
+        expect(payments.first.destinationAmount.value, equals('2'));
+        expect(payments.first.sourceBalanceChanges.length, equals(3));
+        expect(payments[1].destinationAccount, equals('r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV'));
       }));
     });
   });
