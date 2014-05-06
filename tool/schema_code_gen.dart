@@ -167,18 +167,20 @@ class CodeGenerator {
   }
 }
 
-const SOURCE_DIR = 'schemas';
+const SOURCE_DIR = 'schema';
 const DESTINATION_DIR = '../lib/src';
 
 void main() {
   final gen = new CodeGenerator();
 
-  new Directory('schemas').listSync().forEach((f) {
-    final schema = JSON.decode(new File(f.path).readAsStringSync());
-    if (schema.containsKey('properties')) {
-      var code = gen.generate(schema);
-      print("Generating ${_toSnakeCase(schema['title'])}.dart");
-      new File('$DESTINATION_DIR/${_toSnakeCase(schema['title'])}.dart').writeAsStringSync(code);
+  new Directory(SOURCE_DIR).listSync().forEach((f) {
+    if (f is File) {
+      final schema = JSON.decode(new File(f.path).readAsStringSync());
+      if (schema.containsKey('properties')) {
+        var code = gen.generate(schema);
+        print("Generating ${_toSnakeCase(schema['title'])}.dart");
+        new File('$DESTINATION_DIR/${_toSnakeCase(schema['title'])}.dart').writeAsStringSync(code);
+      }
     }
   });
 }

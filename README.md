@@ -8,8 +8,8 @@ A wrapper around the [Ripple REST API](https://dev.ripple.com).
 Features
 --------
 
-* Future based API.
-* PODO (Plain Old Dart Objects) automatically generated from the JSON schema.
+* Future-based API.
+* Typed PODO (Plain Old Dart Objects) automatically generated from the JSON schema.
 * Works on the browser and the command line.
 
 
@@ -47,6 +47,19 @@ For more examples check out the following files:
 
 * [example/example.dart](https://github.com/gmosx/dart-ripple_rest/blob/master/example/example.dart)
 * [test/ripple_rest_io_test.dart](https://github.com/gmosx/dart-ripple_rest/blob/master/test/ripple_rest_io_test.dart)
+
+
+Documentation
+-------------
+
+To generate the documentation for this library, run the following command from
+within it's directory:
+
+```
+$ docsgen --serve .
+```
+
+then browse [](http://localhost:8080)
 
 
 Links

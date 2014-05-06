@@ -29,41 +29,38 @@ abstract class Rpc {
   Future<Map> post(String path, Map body);
 
   /**
-   * Get the settings of an [account].
+   * Queries for possible payment paths. Returns a [List] of potential [Payment]
+   * objects.
+   *
+   * The optional [sourceCurrencies] parameter is a list of source currencies
+   * to filter the resutls of the path-finding query.
    */
-  Future<AccountSettings> getAccountSettings(String account) {
-    return get('accounts/$account/settings').then((response) {
+  Future<List<Payment>> getPaymentPaths(
+      String account, String destinationAccount, String destinationAmount,
+      {String sourceCurrencies}) {
+
+    var path = 'accounts/$account/payments/paths/$destinationAccount/$destinationAmount';
+
+    if (sourceCurrencies != null) {
+      path = '$path?source_currencies=$sourceCurrencies';
+    }
+
+    return get(path).then((response) {
       if (_isSuccess(response)) {
-        return new AccountSettings.fromMap(response['settings']);
+        return response['payments'].map((p) => new Payment.fromMap(p)).toList();
       }
     });
   }
 
   /**
-   * Get details for the transaction identified by the given [transactionHash].
-   */
-  Future<Map> getTransaction(String transactionHash) {
-    return get('tx/$transactionHash').then((response) {
-      if (_isSuccess(response)) {
-        return response['transaction'];
-      }
-    });
-  }
-
-  /**
-   * Get details for a specific payment indentified by a transaction [hash]
-   * or a clientResourceId (i.e. an UUID).
-   */
-  Future<Payment> getPayment(String account, String hashOrId) {
-    return get('accounts/$account/payments/$hashOrId').then((response) {
-      if (_isSuccess(response)) {
-        return response['payment'];
-      }
-    });
-  }
-
-  /**
-   * Get historical payments of an [account].
+   * Returns the historical payments of an [account] as a [List] of [Payment]
+   * objects.
+   *
+   * This method accepts optional parameters for filtering the results. More
+   * specifically, you can filter by [sourceAccount], [destinationAccount],
+   * [direction] (e.g. 'incoming', 'outgoing', 'pending', 'earliest_first'),
+   * [startLedger], [endLedger]. Additionally, you can set the [resultsPerPage]
+   * and the starting [page].
    */
   Future<List<Payment>> getPayments(String account, {
       String sourceAccount,
@@ -96,6 +93,18 @@ abstract class Rpc {
   }
 
   /**
+   * Returns details for a specific payment indentified by a transaction [hash]
+   * or a clientResourceId (i.e. an UUID).
+   */
+  Future<Payment> getPayment(String account, String hashOrId) {
+    return get('accounts/$account/payments/$hashOrId').then((response) {
+      if (_isSuccess(response)) {
+        return response['payment'];
+      }
+    });
+  }
+
+  /**
    * Get the balances of an account.
    */
   Future<List<Balance>> getBalances(String account) {
@@ -107,7 +116,18 @@ abstract class Rpc {
   }
 
   /**
-   * Get the trustlines of an account.
+   * Returns the settings of an [account].
+   */
+  Future<AccountSettings> getAccountSettings(String account) {
+    return get('accounts/$account/settings').then((response) {
+      if (_isSuccess(response)) {
+        return new AccountSettings.fromMap(response['settings']);
+      }
+    });
+  }
+
+  /**
+   * Returns the trustlines of an account.
    */
   Future<List<Trustline>> getTrustlines(String account) {
     return get('accounts/$account/trustlines').then((response) {
@@ -118,7 +138,7 @@ abstract class Rpc {
   }
 
   /**
-   * Get a notification corresponding to a transaction.
+   * Returns a notification corresponding to a transaction.
    */
   Future<Notification> getNotification(String account, String transactionHash) {
     return get('accounts/$account/notifications/$transactionHash').then((response) {
@@ -129,18 +149,7 @@ abstract class Rpc {
   }
 
   /**
-   * Return the REST server status.
-   */
-  Future<Map> getServerStatus() {
-    return get('server').then((response) {
-      if (_isSuccess(response)) {
-        return response;
-      }
-    });
-  }
-
-  /**
-   * Return the rippled connection status.
+   * Returns the rippled connection status.
    */
   Future<bool> getServerConnected() {
     return get('server/connected').then((response) {
@@ -151,28 +160,31 @@ abstract class Rpc {
   }
 
   /**
-   * Query for possible payment paths. Returns a List of potential Payment
-   * objects.
+   * Returns the REST server status.
    */
-  Future<List<Payment>> getPaymentPaths(
-      String account, String destinationAccount, String destinationAmount,
-      {String sourceCurrencies}) {
-
-    var path = 'accounts/$account/payments/paths/$destinationAccount/$destinationAmount';
-
-    if (sourceCurrencies != null) {
-      path = '$path?source_currencies=$sourceCurrencies';
-    }
-
-    return get(path).then((response) {
+  Future<Map> getServerStatus() {
+    return get('server').then((response) {
       if (_isSuccess(response)) {
-        return response['payments'].map((p) => new Payment.fromMap(p)).toList();
+        return response;
       }
     });
   }
 
   /**
-   * Get a new, random UUID. Useful as a value for [clientResourceId].
+   * Returns details for the transaction identified by the given [transactionHash].
+   *
+   * The transaction details are returned as a [Map].
+   */
+  Future<Map> getTransaction(String transactionHash) {
+    return get('tx/$transactionHash').then((response) {
+      if (_isSuccess(response)) {
+        return response['transaction'];
+      }
+    });
+  }
+
+  /**
+   * Generates a new, random UUID. Useful as a value for [clientResourceId].
    */
   Future<String> generateUuid() {
     return get('uuid').then((response) {
@@ -183,22 +195,7 @@ abstract class Rpc {
   }
 
   /**
-   * Update the settings of an [account].
-   */
-  Future<Map> setAccountSettings(String account, String secret, AccountSettings accountSettings) {
-    return post('accounts/$account/settings', {
-        'secret': secret,
-        'settings': accountSettings.toMap()}).then((response) {
-      if (_isSuccess(response)) {
-        // TODO: Temporary, try to remove an object.
-        response.remove('success');
-        return response;
-      }
-    });
-  }
-
-  /**
-   * Submit a payment to the Ripple network.
+   * Submits a payment to the Ripple network.
    *
    * To prevent double-spending only one payment is permitted for a given
    * [clientResourceId].
@@ -216,7 +213,22 @@ abstract class Rpc {
   }
 
   /**
-   * Add or update a [trustline] of an [account].
+   * Updates the settings of an [account].
+   */
+  Future<Map> setAccountSettings(String account, String secret, AccountSettings accountSettings) {
+    return post('accounts/$account/settings', {
+        'secret': secret,
+        'settings': accountSettings.toMap()}).then((response) {
+      if (_isSuccess(response)) {
+        // TODO: Temporary, try to remove an object.
+        response.remove('success');
+        return response;
+      }
+    });
+  }
+
+  /**
+   * Adds or updates a [trustline] of an [account].
    */
   Future<Trustline> setTrustline(String account, String secret, Trustline trustline) {
     return post('accounts/$account/trustlines', {
