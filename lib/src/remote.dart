@@ -240,12 +240,6 @@ abstract class Remote {
     });
   }
 
-  /**
-   * Updates a [Trustline] of an [account].
-   */
-  Future<Trustline> updateTrustline(String account, String secret, Trustline trustline)
-      => setTrustline(account, secret, trustline);
-
   bool _isSuccess(Map response) {
     if (!response['success']) {
       throw new RemoteException(response.containsKey('message') ? response['message'] : response['error']);
