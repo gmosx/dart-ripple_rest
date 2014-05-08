@@ -1,12 +1,12 @@
 part of ripple_rest;
 
 /**
- * An RpcException is thrown on unsuccessful responses to RPC requests.
+ * An [RemoteException] is thrown on unsuccessful responses to RPC requests.
  */
-class RpcException implements Exception {
+class RemoteException implements Exception {
   String message;
 
-  RpcException(this.message);
+  RemoteException(this.message);
 
   String toString() => message;
 }
@@ -17,7 +17,7 @@ class RpcException implements Exception {
  * [Ripple REST API documenation](https://dev.ripple.com)
  * [Ripple REST API endpoints]('/v1');
  */
-abstract class Rpc {
+abstract class Remote {
   /**
    * Send an HTTP GET request.
    */
@@ -242,7 +242,7 @@ abstract class Rpc {
 
   bool _isSuccess(Map response) {
     if (!response['success']) {
-      throw new RpcException(response.containsKey('message') ? response['message'] : response['error']);
+      throw new RemoteException(response.containsKey('message') ? response['message'] : response['error']);
     }
     return true;
   }

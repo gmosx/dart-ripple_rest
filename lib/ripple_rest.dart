@@ -9,4 +9,4 @@ part 'src/notification.dart';
 part 'src/payment.dart';
 part 'src/trustline.dart';
 
-part 'src/rpc.dart';
+part 'src/remote.dart';
