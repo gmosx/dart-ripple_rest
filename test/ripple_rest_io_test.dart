@@ -46,5 +46,17 @@ void main() {
         expect(payments[1].destinationAccount, equals('r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV'));
       }));
     });
+
+    test("provides access to the REST server status", () {
+      client.getServerStatus().then(expectAsync((Map status) {
+        expect(status.containsKey('rippled_server_url'), isTrue);
+      }));
+    });
+
+    test("provides access to the server connection status", () {
+      client.isServerConnected().then(expectAsync((bool connected) {
+        expect(connected, isTrue);
+      }));
+    });
   });
 }

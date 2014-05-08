@@ -149,9 +149,9 @@ abstract class Remote {
   }
 
   /**
-   * Returns the rippled connection status.
+   * Returns [true] if the REST server is connected to the rippled server.
    */
-  Future<bool> getServerConnected() {
+  Future<bool> isServerConnected() {
     return get('server/connected').then((response) {
       if (_isSuccess(response)) {
         return response['connected'];
