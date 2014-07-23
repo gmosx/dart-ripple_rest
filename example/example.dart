@@ -20,13 +20,13 @@ void main() {
 //  });
 //
 //  client.getServerStatus().then(print);
-//  client.getServerConnected().then(print);
+  client.isServerConnected().then(print);
 
-  var trustline = new Trustline(
-    limit: '110',
-    currency: 'XRP',
-    counterparty: 'rPs7nVbSops6xm4v77wpoPFf549cqjzUy9',
-    accountAllowsRippling: true
-  );
-  client.setTrustline('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', "secret", trustline).catchError(print);
+//  var trustline = new Trustline(
+//    limit: '110',
+//    currency: 'XRP',
+//    counterparty: 'rPs7nVbSops6xm4v77wpoPFf549cqjzUy9',
+//    accountAllowsRippling: true
+//  );
+//  client.setTrustline('rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh', "secret", trustline).catchError(print);
 }
